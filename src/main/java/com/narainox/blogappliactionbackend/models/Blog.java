@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +28,14 @@ public class Blog {
     @Column(name = "title",nullable = false)
     private String title;
     private String description;
-    private Integer user;
+    @ManyToOne
+    @JoinColumn(
+            name = "userId"
+    )
+    private User user;
+
+    @OneToMany(mappedBy = "blog")
+    private List<Comment> comments;
     private boolean publish;
     @Column(
             name = "created_at",

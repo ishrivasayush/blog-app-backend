@@ -24,8 +24,18 @@ public class Comment {
     )
     private Integer commentId;
     private String title;
-    private Integer user;
-    private Integer blog;
+    @ManyToOne
+    @JoinColumn
+            (
+                    name="user_id"
+            )
+    private User user;
+    @ManyToOne
+    @JoinColumn
+            (
+                    name = "blog_id"
+            )
+    private Blog blog;
     @Column(
             name = "created_at",
             updatable = false

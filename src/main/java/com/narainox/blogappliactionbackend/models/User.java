@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,7 +30,7 @@ public class User {
     @Column(name = "user_name",nullable = false)
     private String userName;
     private Byte role;
-    @Column(name = "user_name",nullable = false, length = 10)
+    @Column(name = "password",nullable = false, length = 10)
     private String password;
     @Column(
             name = "created_at",
@@ -42,4 +43,10 @@ public class User {
                     insertable = false
             )
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<Blog> blogs;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 }
