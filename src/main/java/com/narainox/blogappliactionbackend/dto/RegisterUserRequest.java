@@ -23,4 +23,14 @@ public class RegisterUserRequest {
     @NotNull(message = "Role required parameter.")
     private Integer role;
 
+    private int isSocialRegister;
+
+    @Override
+    public String toString() {
+        return "RegisterUserRequest{" +
+                "fullName='" + fullName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }
