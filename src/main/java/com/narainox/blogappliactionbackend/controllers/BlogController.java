@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Validated
 @RestController
@@ -35,9 +32,10 @@ public class BlogController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("v1/blogs")
+    @PostMapping("v1/blogs/{blogId}")
     public ResponseEntity<DBSResponseEntity> updateBlogCall(
-            @Valid @RequestBody UpdateBlogRequest updateBlogRequest)
+            @Valid @RequestBody UpdateBlogRequest updateBlogRequest,
+            @PathVariable Integer blogId)
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
@@ -49,5 +47,38 @@ public class BlogController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping("/v1/blogs/{blogId}")
+    public ResponseEntity<DBSResponseEntity> deleteBlogCall(
+            @PathVariable Integer blogId
+    )
+    {
+        DBSResponseEntity dbsResponseEntity = new DBSResponseEntity();
+        try {
+            blogService.deleteBlog(blogId);
+            dbsResponseEntity.setMessage("Blog deleted Successfully");
+            return ResponseEntity.ok(dbsResponseEntity);
+        }
+        catch (Exception exception)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/v1/blogs/blogId")
+    public ResponseEntity<DBSResponseEntity> getBlogCall(@PathVariable Integer blogId)
+    {
+        DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
+        try {
+           blogService.getBlog(blogId);
+           dbsResponseEntity.setData(blogId);
+           return ResponseEntity.ok(dbsResponseEntity);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 
 }
