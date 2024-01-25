@@ -1,5 +1,6 @@
 package com.narainox.blogappliactionbackend.dto;
 
+import com.narainox.blogappliactionbackend.models.Comment;
 import com.narainox.blogappliactionbackend.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,5 +14,6 @@ public class CreateBlogRequest {
     private String description;
     private Boolean publish;
     private User user;
+    private Comment comment;
 
 }

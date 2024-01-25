@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Validated
 @RestController
@@ -35,7 +36,7 @@ public class BlogController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("v1/blogs")
+    @PutMapping("v1/blogs")
     public ResponseEntity<DBSResponseEntity> updateBlogCall(
             @Valid @RequestBody UpdateBlogRequest updateBlogRequest)
     {
@@ -77,8 +78,8 @@ public class BlogController {
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
-           blogService.getBlog(blogId);
-           dbsResponseEntity.setData(blogId);
+            Optional<Blog> blog = blogService.getBlog(blogId);
+            dbsResponseEntity.setData(blog);
            return ResponseEntity.ok(dbsResponseEntity);
         }
         catch (Exception e)

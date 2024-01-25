@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -44,8 +45,8 @@ public class User {
             )
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private List<Blog> blogs;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Blog> blogs=new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;

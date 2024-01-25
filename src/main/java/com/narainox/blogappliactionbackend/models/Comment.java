@@ -1,5 +1,6 @@
 package com.narainox.blogappliactionbackend.models;
 
+import com.narainox.blogappliactionbackend.dto.BlogResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

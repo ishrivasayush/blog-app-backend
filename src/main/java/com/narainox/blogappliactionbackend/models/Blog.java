@@ -29,13 +29,13 @@ public class Blog {
     private String title;
     private String description;
     @ManyToOne
-    @JoinColumn(
-            name = "userId"
-    )
     private User user;
 
     @OneToMany(mappedBy = "blog")
     private List<Comment> comments;
+
+    @ManyToOne
+    private Category category;
     private boolean publish;
     @Column(
             name = "created_at",
