@@ -3,6 +3,7 @@ package com.narainox.blogappliactionbackend.controllers;
 import com.narainox.blogappliactionbackend.dto.CreateBlogRequest;
 import com.narainox.blogappliactionbackend.dto.DBSResponseEntity;
 import com.narainox.blogappliactionbackend.dto.UpdateBlogRequest;
+import com.narainox.blogappliactionbackend.exception.RecordNotFoundException;
 import com.narainox.blogappliactionbackend.models.Blog;
 import com.narainox.blogappliactionbackend.service.BlogService;
 import jakarta.validation.Valid;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Validated
 @RestController
@@ -32,22 +35,27 @@ public class BlogController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("v1/blogs/{blogId}")
+    @PostMapping("v1/blogs")
     public ResponseEntity<DBSResponseEntity> updateBlogCall(
-            @Valid @RequestBody UpdateBlogRequest updateBlogRequest,
-            @PathVariable Integer blogId)
+            @Valid @RequestBody UpdateBlogRequest updateBlogRequest)
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
             Blog updatedBlog =blogService.updateBlog(updateBlogRequest);
+            if (Objects.isNull(updatedBlog)) throw new RecordNotFoundException("Blog Is Not Found.");
             dbsResponseEntity.setMessage("Blog updated successfully.");
             dbsResponseEntity.setData(updatedBlog);
             return ResponseEntity.ok(dbsResponseEntity);
-        } catch (Exception e) {
+        }
+        catch (RecordNotFoundException e)
+        {
+            throw e;
+        }
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping("/v1/blogs/{blogId}")
+    @DeleteMapping("v1/blogs/{blogId}")
     public ResponseEntity<DBSResponseEntity> deleteBlogCall(
             @PathVariable Integer blogId
     )
@@ -64,7 +72,7 @@ public class BlogController {
         }
     }
 
-    @GetMapping("/v1/blogs/blogId")
+    @GetMapping("v1/blogs/blogId")
     public ResponseEntity<DBSResponseEntity> getBlogCall(@PathVariable Integer blogId)
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
@@ -78,7 +86,4 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
-
 }
