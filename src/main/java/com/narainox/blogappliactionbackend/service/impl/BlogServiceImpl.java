@@ -1,8 +1,11 @@
 package com.narainox.blogappliactionbackend.service.impl;
 
+import com.narainox.blogappliactionbackend.dto.CreateBlogRequest;
+import com.narainox.blogappliactionbackend.dto.UpdateBlogRequest;
 import com.narainox.blogappliactionbackend.models.Blog;
 import com.narainox.blogappliactionbackend.repository.BlogRepository;
 import com.narainox.blogappliactionbackend.service.BlogService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,12 +19,16 @@ public class BlogServiceImpl implements BlogService {
     private BlogRepository blogRepository;
 
     @Override
-    public Blog createBlog(Blog blog) throws Exception {
+    public Blog createBlog(CreateBlogRequest createBlogRequest) throws Exception {
+        Blog blog=new Blog();
+        BeanUtils.copyProperties(createBlogRequest,blog);
         return blogRepository.save(blog);
     }
 
     @Override
-    public Blog updateBlog(Blog blog)throws Exception {
+    public Blog updateBlog(UpdateBlogRequest updateBlogRequest)throws Exception {
+        Blog blog=new Blog();
+        BeanUtils.copyProperties(updateBlogRequest,blog);
         return blogRepository.save(blog);
     }
     @Override
