@@ -27,5 +27,36 @@ public class Blog {
     )
     private Integer blogId;
 
-    
+    @Column(name = "blog_title", length = 100, nullable = false)
+    private String title;
+
+    @Column(length = 1000000000)
+    private String content;
+
+    private String imageName;
+    private Boolean publish;
+
+    @Column(
+            name = "created_at",
+            insertable = false
+    )
+    private LocalDateTime createdAt;
+    @Column(
+            name = "updated_at",
+            updatable = false
+    )
+    private LocalDateTime updatedAt;
+    @ManyToOne
+    @JoinColumn(
+            name = "user_id"
+    )
+    private User user;
+    @ManyToOne
+    @JoinColumn(
+            name = "category_id"
+    )
+    private Category category;
+
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    private Set<Comment> comments=new HashSet<>();
 }

@@ -1,13 +1,35 @@
 package com.narainox.blogappliactionbackend.dto;
 
-import com.narainox.blogappliactionbackend.models.Blog;
 
-import java.util.List;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 
 public class UserDto {
-    private Integer userId;
-    private String fullName;
-    private String userName;
+    private int id;
+
+    @NotEmpty
+    @Size(min = 4, message = "Username must be min of 4 characters !!")
+    private String name;
+
+    @Email(message = "Email address is not valid !!")
+    @NotEmpty(message = "Email is required !!")
+    private String email;
+
+    @NotEmpty
+    @Size(min = 3, max = 10, message = "Password must be min of 3 chars and max of 10 chars !!")
+
+
     private String password;
+
+    @NotEmpty
+    private String about;
 
 }

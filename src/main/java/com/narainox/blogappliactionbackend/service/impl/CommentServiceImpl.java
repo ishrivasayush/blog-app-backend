@@ -1,7 +1,6 @@
 package com.narainox.blogappliactionbackend.service.impl;
 
 import com.narainox.blogappliactionbackend.dto.CommentDto;
-import com.narainox.blogappliactionbackend.dto.CommentResponse;
 import com.narainox.blogappliactionbackend.models.Comment;
 import com.narainox.blogappliactionbackend.repository.CommentRepository;
 import com.narainox.blogappliactionbackend.service.CommentService;

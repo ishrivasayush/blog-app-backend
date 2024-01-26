@@ -1,6 +1,6 @@
 package com.narainox.blogappliactionbackend.models;
 
-import com.narainox.blogappliactionbackend.dto.BlogResponse;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,5 +24,19 @@ public class Comment {
             allocationSize = 1
     )
     private Integer commentId;
+    private String content;
+    @Column(
+            name = "created_at",
+            insertable = false
+    )
+    private LocalDateTime createdAt;
+    @Column(
+            name = "updated_at",
+            updatable = false
+    )
+    private LocalDateTime updatedAt;
+
+    @ManyToOne
+    private Blog blog;
 
 }

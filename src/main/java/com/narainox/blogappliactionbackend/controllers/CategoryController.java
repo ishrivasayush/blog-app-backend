@@ -1,7 +1,6 @@
 package com.narainox.blogappliactionbackend.controllers;
 
 import com.narainox.blogappliactionbackend.dto.*;
-import com.narainox.blogappliactionbackend.exception.RecordNotFoundException;
 import com.narainox.blogappliactionbackend.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
+
 
 @RestController
 @Validated
+@RequestMapping("api/")
 public class CategoryController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class CategoryController {
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
-            CategoryResponse category = categoryService.createCategory(categoryDto);
+            CategoryDto category = categoryService.createCategory(categoryDto);
             dbsResponseEntity.setData(category);
             dbsResponseEntity.setMessage("Category Created Successfully.");
             return ResponseEntity.ok(dbsResponseEntity);
@@ -36,27 +36,23 @@ public class CategoryController {
         }
     }
 
-    @PutMapping("v1/categories")
+    @PutMapping("v1/categories/{categoryId}")
     public ResponseEntity<DBSResponseEntity> updateCategoryCall(
-            @Valid @RequestBody CategoryDto categoryDto)
+            @Valid @RequestBody CategoryDto categoryDto,
+            @PathVariable Integer categoryId)
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
-            CategoryResponse response = categoryService.updateCategory(categoryDto);
-            if (Objects.isNull(response)) throw new RecordNotFoundException("Category is not Found.");
+            CategoryDto response = categoryService.updateCategory(categoryDto,categoryId);
             dbsResponseEntity.setMessage("Category updated successfully.");
             dbsResponseEntity.setData(response);
             return ResponseEntity.ok(dbsResponseEntity);
-        }
-        catch (RecordNotFoundException e)
-        {
-            throw e;
         }
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping("v1/category/{categoryId}")
+    @DeleteMapping("v1/categories/{categoryId}")
     public ResponseEntity<DBSResponseEntity> deleteCategoryCall(
             @PathVariable Integer categoryId
     )
@@ -72,12 +68,12 @@ public class CategoryController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("v1/category/{categoryId}")
+    @GetMapping("v1/categories/{categoryId}")
     public ResponseEntity<DBSResponseEntity> getCategoryCall(@PathVariable Integer categoryId)
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
-            CategoryResponse category = categoryService.getCategory(categoryId);
+            CategoryDto category = categoryService.getCategory(categoryId);
             dbsResponseEntity.setData(category);
             dbsResponseEntity.setMessage("category");
             return ResponseEntity.ok(dbsResponseEntity);
@@ -92,7 +88,7 @@ public class CategoryController {
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
-            List<CategoryResponse> category = categoryService.getAllCategory();
+            List<CategoryDto> category = categoryService.getAllCategory();
             dbsResponseEntity.setData(category);
             dbsResponseEntity.setMessage("Category");
             return ResponseEntity.ok(dbsResponseEntity);

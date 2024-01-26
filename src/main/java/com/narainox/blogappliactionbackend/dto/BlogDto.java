@@ -1,25 +1,27 @@
 package com.narainox.blogappliactionbackend.dto;
 
-import com.narainox.blogappliactionbackend.models.User;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class BlogDto {
-    @NotNull(message = "BlogId is required parameter.")
-    private Integer blogId;
-    @NotBlank(message = "Title is required parameter.")
+    private Integer postId;
+
     private String title;
-    @NotBlank(message = "Description is required parameter.")
-    private String description;
-    @NotNull(message = "Publish is required parameter.")
+
+    private String content;
+
+    private String imageName;
     private Boolean publish;
-    @NotNull(message = "User is required parameter.")
+    private CategoryDto category;
+
     private UserDto user;
-    private CommentDto comment;
+
+    private Set<CommentDto> comments=new HashSet<>();
 }

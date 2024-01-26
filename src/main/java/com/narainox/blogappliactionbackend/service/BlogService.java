@@ -8,10 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BlogService {
-    Blog createBlog(BlogDto blogDto) throws Exception;
-    Blog updateBlog(BlogDto blogDto) throws Exception;
-    Blog deleteBlog(Integer blogId)throws Exception;
-    Optional<Blog> getBlog(Integer blogId)throws Exception;
-    List<Blog> getBlogs(Integer userId, Pageable pageable)throws Exception;
+
+    BlogDto createBlog(BlogDto blogDto,Integer userId,Integer categoryId);
+    BlogDto updateBlog(BlogDto blogDto, Integer postId);
+    void deleteBlog(Integer postId);
+    List<BlogDto> getBlogs(Integer pageNumber,Pageable pageable);
+    BlogDto getBlog(Integer postId);
 
 }

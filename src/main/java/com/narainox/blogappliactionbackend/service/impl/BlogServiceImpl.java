@@ -1,44 +1,44 @@
 package com.narainox.blogappliactionbackend.service.impl;
 
 import com.narainox.blogappliactionbackend.dto.BlogDto;
-import com.narainox.blogappliactionbackend.models.Blog;
 import com.narainox.blogappliactionbackend.repository.BlogRepository;
 import com.narainox.blogappliactionbackend.service.BlogService;
-import org.springframework.beans.BeanUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogRepository blogRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     @Override
-    public Blog createBlog(BlogDto blogDto) throws Exception {
-        Blog blog=new Blog();
-        BeanUtils.copyProperties(blogDto,blog);
-        return blogRepository.save(blog);
+    public BlogDto createBlog(BlogDto blogDto, Integer userId, Integer categoryId) {
+        return null;
     }
 
     @Override
-    public Blog updateBlog(BlogDto blogDto)throws Exception {
-        Blog blog=new Blog();
-        BeanUtils.copyProperties(blogDto,blog);
-        return blogRepository.save(blog);
+    public BlogDto updateBlog(BlogDto blogDto, Integer postId) {
+        return null;
+    }
+
+    @Override
+    public void deleteBlog(Integer postId) {
+
     }
     @Override
-    public Blog deleteBlog(Integer blogId)throws Exception {
-        return blogRepository.deleteByBlogId(blogId);
+    public List<BlogDto> getBlogs(Integer pageNumber, Pageable pageable) {
+        return null;
     }
-    public Optional<Blog> getBlog(Integer blogId)throws Exception {
-        return blogRepository.findById(blogId);
-    }
-    public List<Blog> getBlogs(Integer userId, Pageable pageable)throws Exception
-    {
-        return blogRepository.findByUser(userId,pageable);
+
+    @Override
+    public BlogDto getBlog(Integer postId) {
+        return null;
     }
 }

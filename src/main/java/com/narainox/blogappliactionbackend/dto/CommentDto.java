@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class CommentDto {
-    private Integer commentId;
-    private String title;
-    private UserDto user;
-    private BlogDto blog;
+    private int id;
+    private String content;
+
 }
