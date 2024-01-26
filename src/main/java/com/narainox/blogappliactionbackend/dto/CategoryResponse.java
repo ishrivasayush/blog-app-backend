@@ -18,5 +18,5 @@ public class CategoryResponse {
     private int id;
     private String categoryName;
     private String categoryDescription;
-//    private List<Blog> blogs;
+    private List<Blog> blogs;
 }

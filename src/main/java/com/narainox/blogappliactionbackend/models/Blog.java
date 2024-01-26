@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,27 +26,6 @@ public class Blog {
             allocationSize = 1
     )
     private Integer blogId;
-    @Column(name = "title",nullable = false)
-    private String title;
-    private String description;
-    @ManyToOne
-    private User user;
 
-    @OneToMany(mappedBy = "blog")
-    private List<Comment> comments;
-
-    @ManyToOne
-    private Category category;
-    private boolean publish;
-    @Column(
-            name = "created_at",
-            updatable = false
-    )
-    private LocalDateTime createdAt;
-    @Column
-            (
-                    name = "updated_at",
-                    insertable = false
-            )
-    private LocalDateTime updatedAt;
+    
 }

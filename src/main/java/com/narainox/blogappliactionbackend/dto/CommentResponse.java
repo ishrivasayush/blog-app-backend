@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Data
 public class CommentResponse {
     private Integer commentId;
-
     private String title;
     private User user;
     private Blog blog;

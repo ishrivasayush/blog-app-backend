@@ -26,28 +26,6 @@ public class User {
             allocationSize = 1
     )
     private Integer userId;
-    @Column(name="full_name")
-    private String fullName;
-    @Column(name = "user_name",nullable = false)
-    private String userName;
-    private Byte role;
-    @Column(name = "password",nullable = false, length = 10)
-    private String password;
-    @Column(
-            name = "created_at",
-            updatable = false
-    )
-    private LocalDateTime createdAt;
-    @Column
-            (
-                    name = "updated_at",
-                    insertable = false
-            )
-    private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Blog> blogs=new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments;
 }

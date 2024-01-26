@@ -1,9 +1,7 @@
 package com.narainox.blogappliactionbackend.service.impl;
 
+import com.narainox.blogappliactionbackend.dto.CategoryDto;
 import com.narainox.blogappliactionbackend.dto.CategoryResponse;
-import com.narainox.blogappliactionbackend.dto.CreateCategoryRequest;
-import com.narainox.blogappliactionbackend.dto.UpdateCategoryRequest;
-import com.narainox.blogappliactionbackend.exception.RecordNotFoundException;
 import com.narainox.blogappliactionbackend.models.Category;
 import com.narainox.blogappliactionbackend.repository.CategoryRepository;
 import com.narainox.blogappliactionbackend.service.CategoryService;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -23,14 +20,14 @@ public class CategoryServiceImpl implements CategoryService {
     private ModelMapper modelMapper;
 
     @Override
-    public CategoryResponse createCategory(CreateCategoryRequest createCategoryRequest)throws Exception {
-        Category category = modelMapper.map(createCategoryRequest, Category.class);
+    public CategoryResponse createCategory(CategoryDto categoryDto)throws Exception {
+        Category category = modelMapper.map(categoryDto, Category.class);
         Category categories = categoryRepository.save(category);
         return modelMapper.map(categories,CategoryResponse.class);
     }
     @Override
-    public CategoryResponse updateCategory(UpdateCategoryRequest updateCategoryRequest) throws Exception{
-        Category category = modelMapper.map(updateCategoryRequest, Category.class);
+    public CategoryResponse updateCategory(CategoryDto categoryDto) throws Exception{
+        Category category = modelMapper.map(categoryDto, Category.class);
         Category categories = categoryRepository.save(category);
         return modelMapper.map(categories,CategoryResponse.class);
     }

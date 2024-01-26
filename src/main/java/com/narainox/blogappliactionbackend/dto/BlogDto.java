@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UpdateBlogRequest {
+public class BlogDto {
     @NotNull(message = "BlogId is required parameter.")
     private Integer blogId;
     @NotBlank(message = "Title is required parameter.")
@@ -20,5 +20,6 @@ public class UpdateBlogRequest {
     @NotNull(message = "Publish is required parameter.")
     private Boolean publish;
     @NotNull(message = "User is required parameter.")
-    private User user;
+    private UserDto user;
+    private CommentDto comment;
 }

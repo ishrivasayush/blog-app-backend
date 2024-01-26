@@ -1,6 +1,5 @@
 package com.narainox.blogappliactionbackend.models;
 
-import com.narainox.blogappliactionbackend.models.Blog;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,15 +15,16 @@ import java.util.List;
 @Table(name = "categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "category_Sequence"
+    )
+    @SequenceGenerator(
+            name = "category_Sequence",
+            sequenceName = "category_sequence",
+            allocationSize = 1
+    )
     private int id;
 
-    @Column(name = "title")
-    private String categoryName;
 
-    @Column(name ="description")
-    private String categoryDescription;
-
-//    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-//    private List<Blog> blogs=new ArrayList<>();
 }

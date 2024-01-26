@@ -1,7 +1,6 @@
 package com.narainox.blogappliactionbackend.service.impl;
 
-import com.narainox.blogappliactionbackend.dto.CreateBlogRequest;
-import com.narainox.blogappliactionbackend.dto.UpdateBlogRequest;
+import com.narainox.blogappliactionbackend.dto.BlogDto;
 import com.narainox.blogappliactionbackend.models.Blog;
 import com.narainox.blogappliactionbackend.repository.BlogRepository;
 import com.narainox.blogappliactionbackend.service.BlogService;
@@ -19,16 +18,16 @@ public class BlogServiceImpl implements BlogService {
     private BlogRepository blogRepository;
 
     @Override
-    public Blog createBlog(CreateBlogRequest createBlogRequest) throws Exception {
+    public Blog createBlog(BlogDto blogDto) throws Exception {
         Blog blog=new Blog();
-        BeanUtils.copyProperties(createBlogRequest,blog);
+        BeanUtils.copyProperties(blogDto,blog);
         return blogRepository.save(blog);
     }
 
     @Override
-    public Blog updateBlog(UpdateBlogRequest updateBlogRequest)throws Exception {
+    public Blog updateBlog(BlogDto blogDto)throws Exception {
         Blog blog=new Blog();
-        BeanUtils.copyProperties(updateBlogRequest,blog);
+        BeanUtils.copyProperties(blogDto,blog);
         return blogRepository.save(blog);
     }
     @Override

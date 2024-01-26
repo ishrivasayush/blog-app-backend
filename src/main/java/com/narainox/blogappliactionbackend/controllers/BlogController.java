@@ -1,8 +1,7 @@
 package com.narainox.blogappliactionbackend.controllers;
 
-import com.narainox.blogappliactionbackend.dto.CreateBlogRequest;
+import com.narainox.blogappliactionbackend.dto.BlogDto;
 import com.narainox.blogappliactionbackend.dto.DBSResponseEntity;
-import com.narainox.blogappliactionbackend.dto.UpdateBlogRequest;
 import com.narainox.blogappliactionbackend.exception.RecordNotFoundException;
 import com.narainox.blogappliactionbackend.models.Blog;
 import com.narainox.blogappliactionbackend.service.BlogService;
@@ -24,11 +23,11 @@ public class BlogController {
 
     @PostMapping("v1/blogs")
     public ResponseEntity<DBSResponseEntity> createBlogCall(
-            @Valid @RequestBody CreateBlogRequest createBlogRequest)
+            @Valid @RequestBody BlogDto blogDto)
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
-            Blog createdBlog =blogService.createBlog(createBlogRequest);
+            Blog createdBlog =blogService.createBlog(blogDto);
             dbsResponseEntity.setMessage("Blog created successfully.");
             dbsResponseEntity.setData(createdBlog);
             return ResponseEntity.ok(dbsResponseEntity);
@@ -38,11 +37,11 @@ public class BlogController {
     }
     @PutMapping("v1/blogs")
     public ResponseEntity<DBSResponseEntity> updateBlogCall(
-            @Valid @RequestBody UpdateBlogRequest updateBlogRequest)
+            @Valid @RequestBody BlogDto blogDto)
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         try {
-            Blog updatedBlog =blogService.updateBlog(updateBlogRequest);
+            Blog updatedBlog =blogService.updateBlog(blogDto);
             if (Objects.isNull(updatedBlog)) throw new RecordNotFoundException("Blog Is Not Found.");
             dbsResponseEntity.setMessage("Blog updated successfully.");
             dbsResponseEntity.setData(updatedBlog);
