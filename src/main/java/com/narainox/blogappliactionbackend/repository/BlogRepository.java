@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface BlogRepository extends JpaRepository<Blog,Integer> {
     List<Blog> findByUser(Integer userId, Pageable pageable);
+    List<Blog> findByCategory(Integer categoryId, Pageable pageable);
     Blog deleteByBlogId(Integer blogId);
 }

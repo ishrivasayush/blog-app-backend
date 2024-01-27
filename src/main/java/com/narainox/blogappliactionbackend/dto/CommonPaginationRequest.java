@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class CommonPaginationRequest {
     private Integer pageNo;
     private Integer pageSize;
-    private Integer sortBy;
-    private Integer value;
+    private String sortBy;
+    private String sortDir;
 }

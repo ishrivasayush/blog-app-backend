@@ -14,9 +14,9 @@ public interface BlogService {
     BlogDto createBlog(BlogDto blogDto,Integer userId,Integer categoryId);
     BlogDto updateBlog(BlogDto blogDto, Integer postId);
     void deleteBlog(Integer postId);
-    List<BlogDto> getBlogs(Integer pageNumber,Pageable pageable);
+    List<BlogDto> getBlogs(CommonPaginationRequest commonPaginationRequest);
     BlogDto getBlog(Integer postId);
-    List<BlogDto> getBlogsByCategory(Integer categoryId,Pageable pageable);
-    List<BlogDto> getBlogsByUser(CommonPaginationRequest commonPaginationRequest);
+    List<BlogDto> getBlogsByCategory(Integer categoryId,CommonPaginationRequest commonPaginationRequest);
+    List<BlogDto> getBlogsByUser(Integer userId,CommonPaginationRequest commonPaginationRequest);
 
 }

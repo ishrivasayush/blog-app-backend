@@ -3,7 +3,7 @@ package com.narainox.blogappliactionbackend.controllers;
 import com.narainox.blogappliactionbackend.dto.BlogDto;
 import com.narainox.blogappliactionbackend.dto.CommonPaginationRequest;
 import com.narainox.blogappliactionbackend.dto.DBSResponseEntity;
-import com.narainox.blogappliactionbackend.models.Blog;
+import com.narainox.blogappliactionbackend.exception.RecordNotFoundException;
 import com.narainox.blogappliactionbackend.service.BlogService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,12 @@ public class BlogController {
             dbsResponseEntity.setMessage("Blog created successfully.");
             dbsResponseEntity.setData(blog);
             return new ResponseEntity<>(dbsResponseEntity,HttpStatus.CREATED);
-        } catch (Exception e) {
+        }
+        catch (RecordNotFoundException ex)
+        {
+            throw ex;
+        }
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -49,6 +54,10 @@ public class BlogController {
             dbsResponseEntity.setMessage("Blog updated successfully.");
             dbsResponseEntity.setData(updatedBlog);
             return ResponseEntity.ok(dbsResponseEntity);
+        }
+        catch (RecordNotFoundException ex)
+        {
+            throw ex;
         }
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -65,6 +74,10 @@ public class BlogController {
             dbsResponseEntity.setMessage("Blog deleted Successfully");
             return ResponseEntity.ok(dbsResponseEntity);
         }
+        catch (RecordNotFoundException ex)
+        {
+            throw ex;
+        }
         catch (Exception exception)
         {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,29 +93,82 @@ public class BlogController {
             dbsResponseEntity.setData(blog);
            return ResponseEntity.ok(dbsResponseEntity);
         }
+        catch (RecordNotFoundException ex)
+        {
+            throw ex;
+        }
         catch (Exception e)
         {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @GetMapping("v1/blogs/")
+    @GetMapping("v1/user/{userId}/blogs")
     public ResponseEntity<DBSResponseEntity> getBlogsByUserCall(
             @PathVariable Integer userId,
-            @RequestParam(defaultValue = "0",required = false) Integer pageNo,
-            @RequestParam(defaultValue = "10",required = false) Integer pageSize,
-            @RequestParam(defaultValue = "id",required = false) Integer sortBy,
-            @RequestParam(defaultValue = "userId",required = false) Integer value
+            @RequestParam(value = "pageNo",defaultValue = "0",required = false) Integer pageNo,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+            @RequestParam(value = "sortBy",defaultValue = "id",required = false) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = "asc",required = false) String sortDir
     )
     {
         DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
         CommonPaginationRequest commonPaginationRequest=new CommonPaginationRequest();
         commonPaginationRequest.setPageNo(pageNo);
         commonPaginationRequest.setPageSize(pageSize);
-        commonPaginationRequest.setValue(value);
+        commonPaginationRequest.setSortDir(sortDir);
         commonPaginationRequest.setSortBy(sortBy);
         try {
-            List<BlogDto> blog=blogService.getBlogsByUser(commonPaginationRequest);
+            List<BlogDto> blog=blogService.getBlogsByUser(userId,commonPaginationRequest);
+            dbsResponseEntity.setData(blog);
+            return ResponseEntity.ok(dbsResponseEntity);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("v1/category/{categoryId}/blogs")
+    public ResponseEntity<DBSResponseEntity> getBlogsByCategoryCall(
+            @PathVariable Integer categoryId,
+            @RequestParam(value = "pageNo",defaultValue = "0",required = false) Integer pageNo,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+            @RequestParam(value = "sortBy",defaultValue = "id",required = false) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = "asc",required = false) String sortDir
+    )
+    {
+        DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
+        CommonPaginationRequest commonPaginationRequest=new CommonPaginationRequest();
+        commonPaginationRequest.setPageNo(pageNo);
+        commonPaginationRequest.setPageSize(pageSize);
+        commonPaginationRequest.setSortDir(sortDir);
+        commonPaginationRequest.setSortBy(sortBy);
+        try {
+            List<BlogDto> blog=blogService.getBlogsByCategory(categoryId,commonPaginationRequest);
+            dbsResponseEntity.setData(blog);
+            return ResponseEntity.ok(dbsResponseEntity);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("v1/blogs")
+    public ResponseEntity<DBSResponseEntity> getBlogsCall(
+            @RequestParam(value = "pageNo",defaultValue = "0",required = false) Integer pageNo,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+            @RequestParam(value = "sortBy",defaultValue = "id",required = false) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = "asc",required = false) String sortDir
+    )
+    {
+        DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
+        CommonPaginationRequest commonPaginationRequest=new CommonPaginationRequest();
+        commonPaginationRequest.setPageNo(pageNo);
+        commonPaginationRequest.setPageSize(pageSize);
+        commonPaginationRequest.setSortDir(sortDir);
+        commonPaginationRequest.setSortBy(sortBy);
+        try {
+            List<BlogDto> blog=blogService.getBlogs(commonPaginationRequest);
             dbsResponseEntity.setData(blog);
             return ResponseEntity.ok(dbsResponseEntity);
         }

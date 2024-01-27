@@ -23,6 +23,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto)throws Exception {
         Category category = modelMapper.map(categoryDto, Category.class);
+        category.setCreatedAt(LocalDateTime.now());
+        category.setUpdatedAt(LocalDateTime.now());
         Category categories = categoryRepository.save(category);
         return modelMapper.map(categories,CategoryDto.class);
     }
@@ -30,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto updateCategory(CategoryDto categoryDto,Integer categoryId) throws Exception{
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RecordNotFoundException("Category Not Found."));
         category.setCategoryTitle(categoryDto.getCategoryTitle());
-        category.setCategoryDescription(category.getCategoryDescription());
+        category.setCategoryDescription(categoryDto.getCategoryDescription());
         category.setUpdatedAt(LocalDateTime.now());
         Category categories = categoryRepository.save(category);
         return modelMapper.map(categories,CategoryDto.class);

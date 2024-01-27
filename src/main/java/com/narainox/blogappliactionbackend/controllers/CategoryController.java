@@ -1,6 +1,7 @@
 package com.narainox.blogappliactionbackend.controllers;
 
 import com.narainox.blogappliactionbackend.dto.*;
+import com.narainox.blogappliactionbackend.exception.RecordNotFoundException;
 import com.narainox.blogappliactionbackend.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,10 @@ public class CategoryController {
             dbsResponseEntity.setData(response);
             return ResponseEntity.ok(dbsResponseEntity);
         }
+        catch (RecordNotFoundException ex)
+        {
+            throw ex;
+        }
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -63,6 +68,10 @@ public class CategoryController {
             dbsResponseEntity.setMessage("Category deleted Successfully");
             return ResponseEntity.ok(dbsResponseEntity);
         }
+        catch (RecordNotFoundException ex)
+        {
+            throw ex;
+        }
         catch (Exception exception)
         {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -77,6 +86,10 @@ public class CategoryController {
             dbsResponseEntity.setData(category);
             dbsResponseEntity.setMessage("category");
             return ResponseEntity.ok(dbsResponseEntity);
+        }
+        catch (RecordNotFoundException ex)
+        {
+            throw ex;
         }
         catch (Exception e)
         {

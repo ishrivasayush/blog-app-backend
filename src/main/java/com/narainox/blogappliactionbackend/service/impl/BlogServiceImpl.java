@@ -12,12 +12,14 @@ import com.narainox.blogappliactionbackend.repository.UserRepository;
 import com.narainox.blogappliactionbackend.service.BlogService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,9 +65,21 @@ public class BlogServiceImpl implements BlogService {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new RecordNotFoundException("Blog is not found."));
         blogRepository.delete(blog);
     }
+
     @Override
-    public List<BlogDto> getBlogs(Integer pageNumber, Pageable pageable) {
-        return null;
+    public List<BlogDto> getBlogs(CommonPaginationRequest commonPaginationRequest) {
+        Sort sort = (commonPaginationRequest.getSortDir().equalsIgnoreCase("asc")) ? Sort.by(commonPaginationRequest.getSortBy()).ascending() : Sort.by(commonPaginationRequest.getSortBy()).descending();
+        Pageable pageable= PageRequest.of(commonPaginationRequest.getPageNo(),
+                commonPaginationRequest.getPageSize(),
+                sort);
+
+        Page<Blog> b = blogRepository.findAll(pageable);
+        List<BlogDto> blogDtos=new ArrayList<>();
+        for (Blog blog:b)
+        {
+            blogDtos.add(modelMapper.map(blog,BlogDto.class));
+        }
+        return blogDtos;
     }
 
     @Override
@@ -75,16 +89,35 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogDto> getBlogsByCategory(Integer categoryId, Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public List<BlogDto> getBlogsByUser(CommonPaginationRequest commonPaginationRequest) {
+    public List<BlogDto> getBlogsByCategory(Integer categoryId, CommonPaginationRequest commonPaginationRequest) {
+        Sort sort = (commonPaginationRequest.getSortDir().equalsIgnoreCase("asc")) ? Sort.by(commonPaginationRequest.getSortBy()).ascending() : Sort.by(commonPaginationRequest.getSortBy()).descending();
         Pageable pageable= PageRequest.of(commonPaginationRequest.getPageNo(),
                 commonPaginationRequest.getPageSize(),
-                Sort.by(commonPaginationRequest.getSortBy()).ascending();
+                sort);
+        List<Blog> b = blogRepository.findByCategory(categoryId, pageable);
+        List<BlogDto> blogDtos=new ArrayList<>();
+        for (Blog blog:b)
+        {
+            blogDtos.add(modelMapper.map(blog,BlogDto.class));
+        }
+        return blogDtos;
+    }
 
-        return blogRepository.findByUser(commonPaginationRequest.getValue(),pageable);
+
+
+    @Override
+    public List<BlogDto> getBlogsByUser(Integer userId,CommonPaginationRequest commonPaginationRequest) {
+        Sort sort = (commonPaginationRequest.getSortDir().equalsIgnoreCase("asc")) ? Sort.by(commonPaginationRequest.getSortBy()).ascending() : Sort.by(commonPaginationRequest.getSortBy()).descending();
+        Pageable pageable= PageRequest.of(commonPaginationRequest.getPageNo(),
+                commonPaginationRequest.getPageSize(),
+                sort);
+
+        List<Blog> b = blogRepository.findByUser(userId, pageable);
+        List<BlogDto> blogDtos=new ArrayList<>();
+        for (Blog blog:b)
+        {
+            blogDtos.add(modelMapper.map(blog,BlogDto.class));
+        }
+        return blogDtos;
     }
 }
