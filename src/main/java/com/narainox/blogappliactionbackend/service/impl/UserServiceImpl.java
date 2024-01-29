@@ -44,4 +44,28 @@ public class UserServiceImpl implements UserService {
         if (Objects.isNull(user))throw new AuthenticationFailedException("Password is Incorrect");
         return modelMapper.map(user, UserDto.class);
     }
+    public User verifyEmailId(Integer otp,String userId){
+
+        User user=userRepository.findByUserIdAndOtp(userId,otp);
+        if(Objects.isNull(user)){
+            return null;
+        }else {
+            user.setIsAcountVerify(1);
+            userRepository.save(user);
+        }
+        return user;
+
+
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRespository.findByUserName(username);
+        if(user == null){
+            log.error("UserService:loadUserByUsername Username not found: " + username);
+            throw new UsernameNotFoundException("could not found user..!!");
+        }
+        log.info("UserService:loadUserByUsername User Authenticated Successfully..!!!");
+        return new UserInfoDetails(user);
+    }
 }
