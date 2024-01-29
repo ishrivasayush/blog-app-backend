@@ -28,13 +28,9 @@ public class User {
     private Integer userId;
     @Column(name = "user_name", nullable = false, length = 100)
     private String userName;
-
-    @Column(unique = true)
-    private String email;
-
     private String password;
-
-    private String about;
+    private Integer role;
+    private int isSocialRegister;
 
     @Column(
             name = "created_at",

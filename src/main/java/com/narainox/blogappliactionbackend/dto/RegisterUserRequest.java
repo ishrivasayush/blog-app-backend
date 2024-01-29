@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class RegisterUserRequest {
-    @NotBlank(message = "Full name required parameter.")
-    private String fullName;
 
     @Email(message = "User name required parameter.")
     private String userName;
@@ -28,9 +26,9 @@ public class RegisterUserRequest {
     @Override
     public String toString() {
         return "RegisterUserRequest{" +
-                "fullName='" + fullName + '\'' +
-                ", userName='" + userName + '\'' +
+                "userName='" + userName + '\'' +
                 ", role=" + role +
+                ", isSocialRegister=" + isSocialRegister +
                 '}';
     }
 }
