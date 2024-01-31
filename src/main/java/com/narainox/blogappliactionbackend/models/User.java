@@ -29,8 +29,11 @@ public class User {
     @Column(name = "user_name", nullable = false, length = 100)
     private String userName;
     private String password;
-    private Integer role;
+    private List<String> roles;
     private int isSocialRegister;
+    private Integer otp;
+
+    private Integer isAcountVerify;
 
     @Column(
             name = "created_at",

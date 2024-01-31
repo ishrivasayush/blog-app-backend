@@ -1,13 +1,14 @@
 package com.narainox.blogappliactionbackend.config;
+
 import jakarta.mail.Message;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -16,7 +17,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class EmailUtils {
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -123,4 +126,5 @@ public class EmailUtils {
         return convFile;
 
     }
+
 }

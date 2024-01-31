@@ -6,13 +6,15 @@ import com.narainox.blogappliactionbackend.dto.UserDto;
 import com.narainox.blogappliactionbackend.exception.AuthenticationFailedException;
 import com.narainox.blogappliactionbackend.exception.RecordNotFoundException;
 import com.narainox.blogappliactionbackend.exception.UserAlreadyRegisterException;
+import com.narainox.blogappliactionbackend.exception.UsernameNotFoundException;
 import com.narainox.blogappliactionbackend.models.User;
 import com.narainox.blogappliactionbackend.repository.UserRepository;
 import com.narainox.blogappliactionbackend.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
         if (Objects.isNull(user))throw new AuthenticationFailedException("Password is Incorrect");
         return modelMapper.map(user, UserDto.class);
     }
+
     public User verifyEmailId(Integer otp,String userId){
 
         User user=userRepository.findByUserIdAndOtp(userId,otp);
@@ -60,12 +63,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRespository.findByUserName(username);
+        User user = userRepository.findByUserName(username);
         if(user == null){
-            log.error("UserService:loadUserByUsername Username not found: " + username);
+
             throw new UsernameNotFoundException("could not found user..!!");
         }
-        log.info("UserService:loadUserByUsername User Authenticated Successfully..!!!");
+
         return new UserInfoDetails(user);
     }
+
 }

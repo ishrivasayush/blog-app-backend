@@ -26,6 +26,14 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(dbsResponseEntity,HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<DBSResponseEntity> handleUserNotFoundExceptions(
+            UsernameNotFoundException ex) {
+        DBSResponseEntity dbsResponseEntity=new DBSResponseEntity();
+        dbsResponseEntity.setMessage(ex.getMessage());
+
+        return new ResponseEntity<>(dbsResponseEntity,HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(UserAlreadyRegisterException.class)
     public ResponseEntity<DBSResponseEntity> handleUserAlreadyRegisterException(
