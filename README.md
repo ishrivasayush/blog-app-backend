@@ -27,7 +27,7 @@ Made an effort to write clean OOP code to my Date.past() best understanding, lik
 
 Open terminal and use git clone command to download the remote GitHub repository to your computer:
 ```
-git clone 
+git clone https://github.com/ishrivasayush/blog-app-backend.git
 ```
 It will create a new folder with same name as GitHub repository "spring-boot-blog-app". All the project files and git data will be cloned into it. After cloning complete change directories into that new folder:
 ```
